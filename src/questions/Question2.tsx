@@ -12,6 +12,8 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import { getAllAnagramData, anagramObj } from '../app/features/anagram/anagramSlice'
 
+import { createAnagramObject } from './helpers/anagramHelpers'
+
 const Question2 = () => {
   const dispatch = useDispatch()
   const anagrams = useSelector(anagramObj)

@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AppThunk, RootState } from '../../store'
 import axios from 'axios'
 import { any } from 'prop-types'
+import { createAnagramObject } from '../../../questions/helpers/anagramHelpers'
 
 interface AnagramState {
   loading: boolean,
@@ -78,7 +79,7 @@ export function getAllAnagramData (): AppThunk {
   return (dispatch: any) => {
     dispatch(getAnagram())
     setTimeout(() => {
-      console.log('we got anagram data')
+      console.log('debug', createAnagramObject(['yellow', 'let', 'tell', 'pin', 'nip']))
       // mocks API delay
       axios
         .get('http://www.mieliestronk.com/corncob_lowercase.txt', {
