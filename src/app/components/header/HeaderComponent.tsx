@@ -1,10 +1,10 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { menuObj, menuSelectedItemsObj } from '../../features/anagram/anagramSlice'
+import { anagramObj, anagramSelectedItemsObj } from '../../features/anagram/anagramSlice'
 
 export default function HeaderComponent() {
-  // const menu = useSelector(menuObj)
-  const selectedItems = useSelector(menuSelectedItemsObj)
+  // const menu = useSelector(anagramObj)
+  const selectedItems = useSelector(anagramSelectedItemsObj)
   // const dispatch = useDispatch()
 
   return (

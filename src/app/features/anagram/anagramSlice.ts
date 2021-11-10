@@ -3,67 +3,61 @@ import { AppThunk, RootState } from '../../store'
 import axios from 'axios'
 import { any } from 'prop-types'
 
-export interface SingleMenuItem {
-  id: number,
-  name: string,
-  dietaries: Array<string>,
-  createdAt: Date,
-  updatedAt: Date,
-}
-
-interface MenuState {
+interface AnagramState {
   loading: boolean,
   hasErrors: boolean,
-  hasMenuData: boolean,
+  hasAnagramData: boolean,
   errorMessage: string,
-  menuData: {
+  anagramData: {
     message: '',
-    data: Array<SingleMenuItem>,
+    data: Array<string>,
+    // data: Array<any>,
+    // data: Array<SingleMenuItem>,
   },
-  selectedMenuItems: Array<string>
+  selectedAnagramItems: Array<string>
 }
 
-const initialState: MenuState = {
+const initialState: AnagramState = {
   loading: false,
   hasErrors: false,
-  hasMenuData: false,
+  hasAnagramData: false,
   errorMessage: '',
-  menuData: {
+  anagramData: {
     message: '',
-    data: []
+    data: ['abase, abased, abasement, abash']
   },
-  selectedMenuItems: []
+  selectedAnagramItems: []
 }
 
 export const anagramSlice = createSlice({
   name: 'menu',
   initialState,
   reducers: {
-    getMenu: state => {
+    getAnagram: state => {
       state.loading = true
     },
-    getMenuSuccess: (state, { payload }) => {
-      state.menuData = payload
+    getAnagramSuccess: (state, { payload }) => {
+      state.anagramData = payload
       state.loading = false
       state.hasErrors = false
-      state.hasMenuData = true
+      state.hasAnagramData = true
     },
-    getMenuFailure: (state, { payload }) => {
+    getAnagramFailure: (state, { payload }) => {
       state.errorMessage = payload
       state.loading = false
       state.hasErrors = false
     },
-    modifySelectedMenuItems: (state, { payload }) => {
+    modifySelectedAnagramItems: (state, { payload }) => {
       switch (payload.type) {
         case 'add':
-          if (state.selectedMenuItems.includes(payload.id)) {
+          if (state.selectedAnagramItems.includes(payload.id)) {
           } else {
-            state.selectedMenuItems.push(payload.id)
+            state.selectedAnagramItems.push(payload.id)
           }
           break
         case 'remove':
-          const idx = state.selectedMenuItems.indexOf(payload.id)
-          state.selectedMenuItems = state.selectedMenuItems.filter(
+          const idx = state.selectedAnagramItems.indexOf(payload.id)
+          state.selectedAnagramItems = state.selectedAnagramItems.filter(
             (item, i) => i !== idx
           )
           break
@@ -73,50 +67,57 @@ export const anagramSlice = createSlice({
 })
 
 export const {
-  getMenu,
-  getMenuFailure,
-  getMenuSuccess,
-  modifySelectedMenuItems
+  getAnagram,
+  getAnagramFailure,
+  getAnagramSuccess,
+  modifySelectedAnagramItems
 } = anagramSlice.actions
 
-export function getAllMenuData(): AppThunk {
+export function getAllAnagramData (): AppThunk {
+  
   return (dispatch: any) => {
-    dispatch(getMenu())
+    dispatch(getAnagram())
     setTimeout(() => {
+      console.log('we got anagram data')
       // mocks API delay
       axios
-        .get('http://localhost:8080/api/meals/')
+        .get('http://www.mieliestronk.com/corncob_lowercase.txt', {
+          headers: {
+            'Content-Type': 'text/plain'
+          }
+        })
         .then(result => {
-          dispatch(getMenuSuccess(result.data))
+          console.log('the result is', result.data)
+          dispatch(getAnagramSuccess(result.data))
         })
         .catch(error => {
-          dispatch(getMenuFailure(error.message))
+          console.log('there was an error')
+          dispatch(getAnagramFailure(error.message))
         })
     }, 1000)
   }
 }
 
-export function getFilteredMenuDataFromAPI(menuQuery: string): AppThunk {
+export function getFilteredanagramDataFromAPI(anagramQuery: string): AppThunk {
   return (dispatch: any) => {
-    dispatch(getMenu())
+    dispatch(getAnagram())
     setTimeout(() => {
       // mocks API delay
       axios
-        .get('http://localhost:8080/api/meals/' + menuQuery)
+        .get('http://localhost:8080/api/meals/' + anagramQuery)
         .then(result => {
-          dispatch(getMenuSuccess(result.data))
+          dispatch(getAnagramSuccess(result.data))
         })
         .catch(error => {
-          dispatch(getMenuFailure(error.message))
+          dispatch(getAnagramFailure(error.message))
         })
     }, 1000)
   }
 }
 
-export const menuObj = (state: RootState) => state.menu.menuData
-export const menuSelectedItemsObj = (state: RootState) =>
-  state.menu.selectedMenuItems
-export const hasMenu = (state: RootState) => state.menu.hasMenuData
-export const MenuRequestLoading = (state: RootState) => state.menu.loading
+export const anagramObj = (state: RootState) => state.anagram.anagramData
+export const anagramSelectedItemsObj = (state: RootState) => state.anagram.selectedAnagramItems
+export const hasAnagram = (state: RootState) => state.anagram.hasAnagramData
+export const AnagramRequestLoading = (state: RootState) => state.anagram.loading
 
 export default anagramSlice.reducer

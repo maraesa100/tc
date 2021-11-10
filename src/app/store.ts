@@ -1,9 +1,9 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
-import menuReducer from './features/anagram/anagramSlice'
+import anagramReducer from './features/anagram/anagramSlice'
 
 export const store = configureStore({
   reducer: {
-    menu: menuReducer
+    anagram: anagramReducer
   }
 })
 
