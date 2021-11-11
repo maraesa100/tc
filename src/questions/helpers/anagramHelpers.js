@@ -2,8 +2,10 @@
 //   return word.split("").sort().join("");
 // }
 
+// need to convert this to typescript
+
 export const alphabetiseWord = (word)=> {
-  return word.split("").sort().join("");
+  return word.split("").sort().join("").toLowerCase();
 }
 
 export const createAnagramObject = (arrayOfWords) => {

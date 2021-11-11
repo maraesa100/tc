@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AppThunk, RootState } from '../../store'
 import axios from 'axios'
 import { any } from 'prop-types'
-import { createAnagramObject } from '../../../questions/helpers/anagramHelpers'
+import { createAnagramObject, alphabetiseWord } from '../../../questions/helpers/anagramHelpers'
 
 interface AnagramState {
   loading: boolean,
@@ -11,11 +11,11 @@ interface AnagramState {
   errorMessage: string,
   anagramData: {
     message: '',
-    data: Array<string>,
-    // data: Array<any>,
-    // data: Array<SingleMenuItem>,
+    data: Object,
   },
-  selectedAnagramItems: Array<string>
+  anagramSearch: string,
+  sortedAnagramSearch: Array<string>
+
 }
 
 const initialState: AnagramState = {
@@ -25,9 +25,10 @@ const initialState: AnagramState = {
   errorMessage: '',
   anagramData: {
     message: '',
-    data: ['abase, abased, abasement, abash']
+    data: createAnagramObject(['abase, abased, abasement, abash, abbe, babe'])
   },
-  selectedAnagramItems: []
+  anagramSearch: '',
+  sortedAnagramSearch: []
 }
 
 export const anagramSlice = createSlice({
@@ -48,21 +49,20 @@ export const anagramSlice = createSlice({
       state.loading = false
       state.hasErrors = false
     },
-    modifySelectedAnagramItems: (state, { payload }) => {
-      switch (payload.type) {
-        case 'add':
-          if (state.selectedAnagramItems.includes(payload.id)) {
-          } else {
-            state.selectedAnagramItems.push(payload.id)
-          }
-          break
-        case 'remove':
-          const idx = state.selectedAnagramItems.indexOf(payload.id)
-          state.selectedAnagramItems = state.selectedAnagramItems.filter(
-            (item, i) => i !== idx
-          )
-          break
-      }
+
+    setAnagramSearch: (state, { payload }) => {
+      console.log('setting anagram search', payload)
+          state.anagramSearch = payload
+    },
+
+    submitAnagramSearch: (state) => {
+      const searchArray = state.anagramSearch.split(' ');
+      searchArray.forEach((i: any) => {
+        const alphabetisedWord = alphabetiseWord(i)
+        if (!state.sortedAnagramSearch.includes(alphabetisedWord)) {
+          state.sortedAnagramSearch.push(alphabetisedWord)
+        }
+      })
     }
   }
 })
@@ -71,7 +71,8 @@ export const {
   getAnagram,
   getAnagramFailure,
   getAnagramSuccess,
-  modifySelectedAnagramItems
+  setAnagramSearch,
+  submitAnagramSearch,
 } = anagramSlice.actions
 
 export function getAllAnagramData (): AppThunk {
@@ -89,7 +90,7 @@ export function getAllAnagramData (): AppThunk {
         })
         .then(result => {
           console.log('the result is', result.data)
-          dispatch(getAnagramSuccess(result.data))
+          dispatch(getAnagramSuccess(createAnagramObject(result.data)))
         })
         .catch(error => {
           console.log('there was an error')
@@ -99,25 +100,9 @@ export function getAllAnagramData (): AppThunk {
   }
 }
 
-export function getFilteredanagramDataFromAPI(anagramQuery: string): AppThunk {
-  return (dispatch: any) => {
-    dispatch(getAnagram())
-    setTimeout(() => {
-      // mocks API delay
-      axios
-        .get('http://localhost:8080/api/meals/' + anagramQuery)
-        .then(result => {
-          dispatch(getAnagramSuccess(result.data))
-        })
-        .catch(error => {
-          dispatch(getAnagramFailure(error.message))
-        })
-    }, 1000)
-  }
-}
 
 export const anagramObj = (state: RootState) => state.anagram.anagramData
-export const anagramSelectedItemsObj = (state: RootState) => state.anagram.selectedAnagramItems
+export const anagramSelectedItemsObj = (state: RootState) => state.anagram.anagramSearch
 export const hasAnagram = (state: RootState) => state.anagram.hasAnagramData
 export const AnagramRequestLoading = (state: RootState) => state.anagram.loading
 

@@ -10,9 +10,9 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { getAllAnagramData, anagramObj } from '../app/features/anagram/anagramSlice'
+import { getAllAnagramData, anagramObj, setAnagramSearch, submitAnagramSearch } from '../app/features/anagram/anagramSlice'
 
-import { createAnagramObject } from './helpers/anagramHelpers'
+// import { createAnagramObject } from './helpers/anagramHelpers'
 
 const Question2 = () => {
   const dispatch = useDispatch()
@@ -22,10 +22,30 @@ const Question2 = () => {
     dispatch(getAllAnagramData())
   }, [dispatch])
 
-  return <h1>Build your app here...
-    
-    {/* {anagrams.data.map(item => <p>{item}</p>)} */}
+  const updateSearchString = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setAnagramSearch(event.target.value))
+  }
 
+  const submitSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log('we submitted the form');
+    dispatch(submitAnagramSearch());
+  }
+
+
+
+  return <h1>Build your app here...
+    <form onSubmit={e => submitSearch(e)}>
+        <label>
+          Name:
+        <input type="text"
+          // value={this.state.value}
+          onChange={e => updateSearchString(e)}
+          />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+    
   </h1>;
 };
 
