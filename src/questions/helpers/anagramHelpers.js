@@ -21,12 +21,3 @@ arrayOfWords.map(item => {
 
 return newObject
 }
-
-
-
-
-// alphabetise words
-// save these as key: value pairs i.e act: cat
-// reduce these into key: anagram1, anagram2
-// iterate through a list of words which are sorted alphabetically
-// ...  see if you can find matches
