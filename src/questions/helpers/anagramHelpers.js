@@ -2,7 +2,7 @@
 //   return word.split("").sort().join("");
 // }
 
-// need to convert this to typescript
+// TODO: convert this to typescript
 
 export const alphabetiseWord = word => {
   return word
@@ -22,7 +22,6 @@ export const createAnagramObject = arrayOfWords => {
       newObject[`${alphaWord}`] = [item]
     }
   })
-
   return newObject
 }
 

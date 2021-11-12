@@ -10,10 +10,11 @@ interface AnagramState {
   hasErrors: boolean,
   hasAnagramData: boolean,
   errorMessage: string,
-  anagramData: any,
+  anagramData: Object,
   anagramSearchString: string,
   alphabetisedAnagramSearch: Array<string>,
   validAnagrams: any,
+  topScore: number,
 }
 
 const initialState: AnagramState = {
@@ -24,7 +25,8 @@ const initialState: AnagramState = {
   anagramData: {},
   anagramSearchString: '',
   alphabetisedAnagramSearch: [],
-  validAnagrams: {}
+  validAnagrams: {},
+  topScore: 0,
 }
 
 export const anagramSlice = createSlice({
@@ -54,7 +56,21 @@ export const anagramSlice = createSlice({
       const { anagramSearchString, anagramData } = state;
       
       const validAg = createValidAnagramObject(anagramSearchString, current(anagramData))
-      state.validAnagrams = validAg
+      let searchTopScore = 0;
+      
+      const validAgKeys = Object.keys(validAg);
+
+      validAgKeys.forEach(item => {
+        if (item.length > searchTopScore) {
+          searchTopScore = item.length;
+        }
+      })
+
+      if (state.topScore < searchTopScore) {
+        state.topScore = searchTopScore;
+      }
+
+      state.validAnagrams = validAg;
     }
   }
 })
@@ -92,7 +108,7 @@ export function getAllAnagramData (): AppThunk {
 
       /* gets the first 10,000 words from a word generation module */
       dispatch(getAnagramSuccess(createAnagramObject(wordList.slice(0,10000))))
-    }, 3000)
+    }, 1000)
   }
 }
 
@@ -101,5 +117,6 @@ export const anagramObj = (state: RootState) => state.anagram.anagramData
 export const hasAnagram = (state: RootState) => state.anagram.hasAnagramData
 export const AnagramRequestLoading = (state: RootState) => state.anagram.loading
 export const validAnagramObj = (state: RootState) => state.anagram.validAnagrams
+export const topScore = (state: RootState) => state.anagram.topScore
 
 export default anagramSlice.reducer

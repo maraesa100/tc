@@ -14,7 +14,8 @@ import {
   setAnagramSearch,
   submitAnagramSearch,
   validAnagramObj,
-  AnagramRequestLoading
+  AnagramRequestLoading,
+  topScore
 } from '../app/features/anagram/anagramSlice'
 import Loader from 'react-loader-spinner'
 
@@ -24,6 +25,7 @@ const Question2 = () => {
   const dispatch = useDispatch()
   const validAnagrams = useSelector(validAnagramObj)
   const appLoading = useSelector(AnagramRequestLoading)
+  const gameTopScore = useSelector(topScore)
 
   useEffect(() => {
     dispatch(getAllAnagramData())
@@ -43,10 +45,14 @@ const Question2 = () => {
     <>
       {appLoading && (
         <div>
+          <h3>Anagram Finder</h3>
           <Loader type="BallTriangle" color='#00BFFF' height={200} width={200} />
+          <p>Loading...</p>
         </div>
       )}
       {!appLoading && (
+        <>
+          <p>The top score is: {gameTopScore}</p>
         <h1>
           Anagram Sorter
           <form onSubmit={e => submitSearch(e)}>
@@ -60,7 +66,7 @@ const Question2 = () => {
             Object.keys(validAnagrams).map((item, index) => {
               const arrayofString = item.split(',')
               return (
-                <div>
+                <div key={`validAnagrams${index}`}>
                   <SearchResults
                     results={validAnagrams[item]}
                     index={index}
@@ -69,7 +75,10 @@ const Question2 = () => {
                 </div>
               )
             })}
-        </h1>
+          </h1>
+
+          
+          </>
       )}
     </>
   )
