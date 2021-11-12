@@ -18,7 +18,6 @@ import {
   topScore
 } from '../app/features/anagram/anagramSlice'
 import Loader from 'react-loader-spinner'
-import Button from '@mui/material/Button';
 
 
 import { SearchResults } from '../app/components/anagram/searchResults'
@@ -61,7 +60,7 @@ const Question2 = () => {
                 <div>
                   <p>Search for words below</p>
                 </div>
-              <input placeholder={"this is not pink"} type='text' onChange={e => updateSearchString(e)} />
+              <input placeholder={"still the mind"} type='text' onChange={e => updateSearchString(e)} />
             <input type='submit' value='Submit' />
           </form>
           {validAnagrams &&

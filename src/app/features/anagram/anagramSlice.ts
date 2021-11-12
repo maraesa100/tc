@@ -56,13 +56,15 @@ export const anagramSlice = createSlice({
       const { anagramSearchString, anagramData } = state;
       
       const validAg = createValidAnagramObject(anagramSearchString, current(anagramData))
-      let searchTopScore = 0;
+      state.validAnagrams = validAg;
       
+      let searchTopScore = 0;
+
       const validAgKeys = Object.keys(validAg);
 
-      validAgKeys.forEach(item => {
-        if (item.length > searchTopScore) {
-          searchTopScore = item.length;
+      validAgKeys.forEach( (item,index: any) => {
+        if (state.validAnagrams[item].length > searchTopScore) {
+          searchTopScore = state.validAnagrams[item][0].length;
         }
       })
 
@@ -70,7 +72,7 @@ export const anagramSlice = createSlice({
         state.topScore = searchTopScore;
       }
 
-      state.validAnagrams = validAg;
+      
     }
   }
 })
