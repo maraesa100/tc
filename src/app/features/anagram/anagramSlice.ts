@@ -58,7 +58,10 @@ export const anagramSlice = createSlice({
         const alphabetisedWord = alphabetiseWord(item)
         if (!state.sortedAnagramSearch.includes(alphabetisedWord) && state.anagramData.hasOwnProperty(`${alphabetisedWord}`)) {
           state.sortedAnagramSearch.push(alphabetisedWord)
-          state.validAnagrams.push(state.anagramData[`${alphabetisedWord}`])
+          let matchingAnagrams = state.anagramData[`${alphabetisedWord}`];
+          matchingAnagrams = matchingAnagrams.filter((v: string) => v !== item); 
+          
+          state.validAnagrams.push(matchingAnagrams)
         }
       })
     }
@@ -106,6 +109,6 @@ export function getAllAnagramData (): AppThunk {
 export const anagramObj = (state: RootState) => state.anagram.anagramData
 export const hasAnagram = (state: RootState) => state.anagram.hasAnagramData
 export const AnagramRequestLoading = (state: RootState) => state.anagram.loading
-export const sortedAnagramSearchObj = (state: RootState) => state.anagram.sortedAnagramSearch
+export const validAnagramObj = (state: RootState) => state.anagram.validAnagrams
 
 export default anagramSlice.reducer

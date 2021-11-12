@@ -9,12 +9,11 @@
 
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllAnagramData, anagramObj, setAnagramSearch, submitAnagramSearch, sortedAnagramSearchObj } from '../app/features/anagram/anagramSlice'
+import { getAllAnagramData, anagramObj, setAnagramSearch, submitAnagramSearch, validAnagramObj } from '../app/features/anagram/anagramSlice'
 
 const Question2 = () => {
   const dispatch = useDispatch()
-  const anagramSortedSearch = useSelector(sortedAnagramSearchObj)
-  const validAnagramData = useSelector(anagramObj)
+  const validAnagrams= useSelector(validAnagramObj)
 
   useEffect(() => {
     dispatch(getAllAnagramData())
@@ -43,13 +42,14 @@ const Question2 = () => {
         <input type="submit" value="Submit" />
     </form>
     
-    {anagramSortedSearch.filter((item, i) => validAnagramData.hasOwnProperty(item)).map((name, i) => {
+    {validAnagrams.map((item, i) =>  {
       return (
         <div key={i.toString()}>
-          <p>Your Valid Word: {name}</p>
+          <p>{item.toString()}</p>
         </div>
       )
     })}
+
 
     
     
