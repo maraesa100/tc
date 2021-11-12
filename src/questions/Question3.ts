@@ -21,9 +21,8 @@ function sayIt(it: Message): number {
   else if (it.count < 10) count = 10
   else if (it.count < 15) count = 15
 
-  // replace if with a rounding function 
-  // could then extend the functionality more easily 
-  // for example new props: 
+  // replace with a rounding function 
+  // could extend sayIt with new props: e.g. factor & minimum/maximum range
   // if (it.count >= 2 && it.count <= 15) {
   //  count = Math.ceil(it.count / 5) * 5;
   // }
