@@ -16,7 +16,9 @@ export const SearchResults: React.FC<searchResultsProps> = ({
         <p key={index}></p>
       {results &&
         results.map((title: any) => {
-            return <p className='title'>{title}</p>
+          return <p className='title'>{title.map((i: any) => {
+            return (<p>{i}</p>)
+            })}</p>
           })}
         
 </div>
