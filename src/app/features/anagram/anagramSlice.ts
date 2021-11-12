@@ -92,7 +92,7 @@ export function getAllAnagramData (): AppThunk {
 
       /* gets the first 10,000 words from a word generation module */
       dispatch(getAnagramSuccess(createAnagramObject(wordList.slice(0,10000))))
-    }, 1000)
+    }, 3000)
   }
 }
 

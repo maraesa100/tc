@@ -9,13 +9,21 @@
 
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllAnagramData, setAnagramSearch, submitAnagramSearch, validAnagramObj } from '../app/features/anagram/anagramSlice'
+import {
+  getAllAnagramData,
+  setAnagramSearch,
+  submitAnagramSearch,
+  validAnagramObj,
+  AnagramRequestLoading
+} from '../app/features/anagram/anagramSlice'
+import Loader from 'react-loader-spinner'
 
 import { SearchResults } from '../app/components/anagram/searchResults'
 
 const Question2 = () => {
   const dispatch = useDispatch()
-  const validAnagrams= useSelector(validAnagramObj)
+  const validAnagrams = useSelector(validAnagramObj)
+  const appLoading = useSelector(AnagramRequestLoading)
 
   useEffect(() => {
     dispatch(getAllAnagramData())
@@ -26,37 +34,45 @@ const Question2 = () => {
   }
 
   const submitSearch = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log('we submitted the form');
-    dispatch(submitAnagramSearch());
+    event.preventDefault()
+    console.log('we submitted the form')
+    dispatch(submitAnagramSearch())
   }
 
-
-
-  return <h1>Anagram Sorter
-    <form onSubmit={e => submitSearch(e)}>
-        <label>
-          Your Words: 
-        <input type="text"
-          onChange={e => updateSearchString(e)}
-          />
-        </label>
-        <input type="submit" value="Submit" />
-    </form>
-
-    {validAnagrams &&
-    Object.keys(validAnagrams).map((item, index) => {
-      const arrayofString = item.split(',');
-      return (
+  return (
+    <>
+      {appLoading && (
         <div>
-          <SearchResults results={validAnagrams[item]} index={index} title={item} />
+          <Loader type="BallTriangle" color='#00BFFF' height={200} width={200} />
         </div>
-        )
-})
+      )}
+      {!appLoading && (
+        <h1>
+          Anagram Sorter
+          <form onSubmit={e => submitSearch(e)}>
+            <label>
+              Your Words:
+              <input type='text' onChange={e => updateSearchString(e)} />
+            </label>
+            <input type='submit' value='Submit' />
+          </form>
+          {validAnagrams &&
+            Object.keys(validAnagrams).map((item, index) => {
+              const arrayofString = item.split(',')
+              return (
+                <div>
+                  <SearchResults
+                    results={validAnagrams[item]}
+                    index={index}
+                    title={item}
+                  />
+                </div>
+              )
+            })}
+        </h1>
+      )}
+    </>
+  )
 }
-    
-    
-  </h1>;
-};
 
-export default Question2;
+export default Question2
