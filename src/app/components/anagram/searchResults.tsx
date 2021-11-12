@@ -1,10 +1,8 @@
 import React from 'react'
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
 
 interface searchResultsProps {
   results?: Array<string>,
-  index?: any,
+  index?: number,
   title?: string,
 }
 
@@ -13,17 +11,13 @@ export const SearchResults: React.FC<searchResultsProps> = ({
 }: searchResultsProps) => {
   return (
     <div key={`search-results-${index}`}>
-
-      <Button color="secondary">{title} : </Button>
-
+      <p className='matched-word'>Your Word:</p>
+      <p className='matched-word'>{title}</p>
+      <p className='matched-word'>Your Results:</p>
       {results &&
-        results.map((title: any, i: any) => {
-          return <div key={i} className='word-result'>{title.map((innerItem: any) => {
-            return (
-              <span key={innerItem} className="anagram-button">
-                <Button color="success" variant="contained"> {innerItem} </Button>
-              </span>
-            )
+        results.map((title: any, i: number) => {
+          return <div key={i} className='word-result'>{title.map((innerItem: string) => {
+            return (<p key={innerItem} >{innerItem}</p>)
             })}</div>
           })} 
     </div>
