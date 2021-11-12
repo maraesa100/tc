@@ -11,14 +11,14 @@ export const SearchResults: React.FC<searchResultsProps> = ({
   results, index, title,
 }: searchResultsProps) => {
   return (
-    <div key={index}>
+    <div key={`search-results-${index}`}>
       <p className='matched-word'>Your Word:</p>
       <p className='matched-word'>{title}</p>
       <p className='matched-word'>Your Results:</p>
       {results &&
-        results.map((title: any) => {
-          return <div key={index} className='word-result'>{title.map((i: any) => {
-            return (<p>{i}</p>)
+        results.map((title: any, i: any) => {
+          return <div key={i} className='word-result'>{title.map((innerItem: any) => {
+            return (<p key={innerItem} >{innerItem}</p>)
             })}</div>
           })} 
     </div>

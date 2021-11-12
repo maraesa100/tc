@@ -18,6 +18,8 @@ import {
   topScore
 } from '../app/features/anagram/anagramSlice'
 import Loader from 'react-loader-spinner'
+import Button from '@mui/material/Button';
+
 
 import { SearchResults } from '../app/components/anagram/searchResults'
 
@@ -45,8 +47,8 @@ const Question2 = () => {
     <>
       {appLoading && (
         <div>
-          <h3>Anagram Finder</h3>
-          <Loader type="BallTriangle" color='#00BFFF' height={200} width={200} />
+          <h1 className="app-title">Anagram Finder</h1>
+          <Loader type="BallTriangle" color='#1AD798' height={200} width={200} />
           <p>Loading...</p>
         </div>
       )}
@@ -55,11 +57,11 @@ const Question2 = () => {
           <p>The top score is: {gameTopScore}</p>
         <h1>
           Anagram Sorter
-          <form onSubmit={e => submitSearch(e)}>
-            <label>
-              Your Words:
-              <input type='text' onChange={e => updateSearchString(e)} />
-            </label>
+            <form onSubmit={e => submitSearch(e)}>
+                <div>
+                  <p>Search for words below</p>
+                </div>
+              <input placeholder={"this is not pink"} type='text' onChange={e => updateSearchString(e)} />
             <input type='submit' value='Submit' />
           </form>
           {validAnagrams &&

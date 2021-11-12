@@ -22,7 +22,8 @@ function sayIt(it: Message): number {
   else if (it.count < 15) count = 15
 
   // replace if with a rounding function 
-  // could then extend the functionality more easily
+  // could then extend the functionality more easily 
+  // for example new props: 
   // if (it.count >= 2 && it.count <= 15) {
   //  count = Math.ceil(it.count / 5) * 5;
   // }
@@ -36,6 +37,4 @@ function sayIt(it: Message): number {
     // if this loop only exists for logging (message is not being returned), remove the loop
   
   return count
-  // the function is  geared to returning integer series
-  // there is no catch all for numbers over 15
 }

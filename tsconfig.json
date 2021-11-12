@@ -7,8 +7,12 @@
     "esModuleInterop": true,
     "lib": [
       "dom",
-      "es2015"
+      "es2015",
+      "es6"
     ],
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
     "jsx": "react-jsx",
     "target": "es5",
     "allowJs": true,
