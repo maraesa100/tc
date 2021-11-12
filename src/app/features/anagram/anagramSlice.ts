@@ -1,8 +1,8 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction, current } from '@reduxjs/toolkit'
 import { AppThunk, RootState } from '../../store'
 import axios from 'axios'
 import { any } from 'prop-types'
-import { createAnagramObject, alphabetiseWord } from '../../../questions/helpers/anagramHelpers'
+import { createAnagramObject, alphabetiseWord, createValidAnagramObject } from '../../../questions/helpers/anagramHelpers'
 var wordList = require('word-list-json');
 
 interface AnagramState {
@@ -11,9 +11,9 @@ interface AnagramState {
   hasAnagramData: boolean,
   errorMessage: string,
   anagramData: any,
-  anagramSearch: string,
-  sortedAnagramSearch: Array<string>,
-  validAnagrams: Array<string>,
+  anagramSearchString: string,
+  alphabetisedAnagramSearch: Array<string>,
+  validAnagrams: any,
 }
 
 const initialState: AnagramState = {
@@ -22,9 +22,9 @@ const initialState: AnagramState = {
   hasAnagramData: false,
   errorMessage: '',
   anagramData: {},
-  anagramSearch: '',
-  sortedAnagramSearch: [],
-  validAnagrams: []
+  anagramSearchString: '',
+  alphabetisedAnagramSearch: [],
+  validAnagrams: {}
 }
 
 export const anagramSlice = createSlice({
@@ -47,23 +47,14 @@ export const anagramSlice = createSlice({
     },
 
     setAnagramSearch: (state, { payload }) => {
-          state.anagramSearch = payload
+          state.anagramSearchString = payload
     },
 
     submitAnagramSearch: (state) => {
-      const searchArray = state.anagramSearch.split(' ');
-      state.sortedAnagramSearch = [];
-      state.validAnagrams = [];
-      searchArray.forEach((item: any) => {
-        const alphabetisedWord = alphabetiseWord(item)
-        if (!state.sortedAnagramSearch.includes(alphabetisedWord) && state.anagramData.hasOwnProperty(`${alphabetisedWord}`)) {
-          state.sortedAnagramSearch.push(alphabetisedWord)
-          let matchingAnagrams = state.anagramData[`${alphabetisedWord}`];
-          matchingAnagrams = matchingAnagrams.filter((v: string) => v !== item); 
-          
-          state.validAnagrams.push(matchingAnagrams)
-        }
-      })
+      const { anagramSearchString, anagramData } = state;
+      
+      const validAg = createValidAnagramObject(anagramSearchString, current(anagramData))
+      state.validAnagrams = validAg
     }
   }
 })

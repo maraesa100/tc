@@ -42,13 +42,13 @@ const Question2 = () => {
         <input type="submit" value="Submit" />
     </form>
     
-    {validAnagrams.map((item, i) =>  {
+    {/* {validAnagrams.map((item, i) =>  {
       return (
         <div key={i.toString()}>
           <p>{item.toString()}</p>
         </div>
       )
-    })}
+    })} */}
 
 
     

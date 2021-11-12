@@ -21,3 +21,19 @@ arrayOfWords.map(item => {
 
 return newObject
 }
+
+
+export const createValidAnagramObject = (anagramSearchString, anagrams) => {
+  const words = anagramSearchString.split(' ')
+  const arrayOfWords = [...new Set(words)];
+  let newObject = {};
+  arrayOfWords.map(item => {
+    const alphaWord = alphabetiseWord(item)
+    if(!anagrams.hasOwnProperty(alphaWord) || newObject.hasOwnProperty(alphaWord)) {
+      return
+    } 
+    newObject[`${alphaWord}`] = [anagrams[`${alphaWord}`]];
+  })
+  return newObject
+  }
+
