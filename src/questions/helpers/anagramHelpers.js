@@ -32,7 +32,10 @@ export const createValidAnagramObject = (anagramSearchString, anagrams) => {
     if(!anagrams.hasOwnProperty(alphaWord) || newObject.hasOwnProperty(alphaWord)) {
       return
     } 
-    newObject[`${alphaWord}`] = [anagrams[`${alphaWord}`]];
+    let strippedAlphaWord = anagrams[`${alphaWord}`].slice();
+    const index = strippedAlphaWord.indexOf(item);
+    strippedAlphaWord.splice(index, 1);
+    newObject[`${item}`] = [strippedAlphaWord];
   })
   return newObject
   }

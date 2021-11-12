@@ -1,9 +1,24 @@
 import React from 'react'
 
-export default function searchResults() {
+
+interface searchResultsProps {
+  results?: Array<string>,
+  index?: any,
+  title?: string,
+}
+
+export const SearchResults: React.FC<searchResultsProps> = ({
+  results, index, title,
+}: searchResultsProps) => {
   return (
     <div>
-      
-    </div>
+      <h2>{title}</h2>
+        <p key={index}></p>
+      {results &&
+        results.map((title: any) => {
+            return <p className='title'>{title}</p>
+          })}
+        
+</div>
   )
 }

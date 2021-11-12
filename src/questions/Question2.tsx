@@ -9,7 +9,9 @@
 
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllAnagramData, anagramObj, setAnagramSearch, submitAnagramSearch, validAnagramObj } from '../app/features/anagram/anagramSlice'
+import { getAllAnagramData, setAnagramSearch, submitAnagramSearch, validAnagramObj } from '../app/features/anagram/anagramSlice'
+
+import { SearchResults } from '../app/components/anagram/searchResults'
 
 const Question2 = () => {
   const dispatch = useDispatch()
@@ -41,16 +43,17 @@ const Question2 = () => {
         </label>
         <input type="submit" value="Submit" />
     </form>
-    
-    {/* {validAnagrams.map((item, i) =>  {
+
+    {validAnagrams &&
+    Object.keys(validAnagrams).map((item, index) => {
+      const arrayofString = item.split(',');
       return (
-        <div key={i.toString()}>
-          <p>{item.toString()}</p>
+        <div>
+          <SearchResults results={validAnagrams[item]} index={index} title={item} />
         </div>
-      )
-    })} */}
-
-
+        )
+})
+}
     
     
   </h1>;
