@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction, current } from '@reduxjs/toolkit'
 import { AppThunk, RootState } from '../../store'
 import axios from 'axios'
-import { any } from 'prop-types'
 import { createAnagramObject, alphabetiseWord, createValidAnagramObject } from '../../../questions/helpers/anagramHelpers'
 var wordList = require('word-list-json');
 
@@ -62,7 +61,7 @@ export const anagramSlice = createSlice({
 
       const validAgKeys = Object.keys(validAg);
 
-      validAgKeys.forEach( (item,index: any) => {
+      validAgKeys.forEach( (item) => {
         if (state.validAnagrams[item].length > searchTopScore) {
           searchTopScore = state.validAnagrams[item][0].length;
         }

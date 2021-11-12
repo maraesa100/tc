@@ -19,7 +19,6 @@ import {
 } from '../app/features/anagram/anagramSlice'
 import Loader from 'react-loader-spinner'
 
-
 import { SearchResults } from '../app/components/anagram/searchResults'
 
 const Question2 = () => {
@@ -77,8 +76,6 @@ const Question2 = () => {
               )
             })}
           </h1>
-
-          
           </>
       )}
     </>
